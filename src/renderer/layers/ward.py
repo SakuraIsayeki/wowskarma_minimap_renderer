@@ -47,6 +47,7 @@ class LayerWardBase(LayerBase):
         }
         self._color = color
         self._ships = renderer.resman.load_json("ships.json")
+        self._target_player_id = renderer.target_player_id
 
     def draw(self, game_time: int, image: Image.Image):
         """Draws the wards to the minimap.
@@ -90,7 +91,9 @@ class LayerWardBase(LayerBase):
 
             w = h = round(r * 2)
 
-            if self._color:
+            if self._target_player_id and player.id == self._target_player_id:
+                relation = "ward_target"
+            elif self._color:
                 relation = (
                     "ward_ally" if self._color == "green" else "ward_enemy"
                 )
