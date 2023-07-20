@@ -9,8 +9,14 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser()
     parser.add_argument("--replay", type=str, required=True)
+    parser.add_argument("--target-player-id", type=int, required=False)
     namespace = parser.parse_args()
+    # Debug: Readback the arguments
     path = Path(namespace.replay)
+    target_player_id: int | None = namespace.target_player_id
+
+    LOGGER.info(f"Replay file: {path}")
+    LOGGER.info(f"Target player ID: {target_player_id}")
     video_path = path.parent.joinpath(f"{path.stem}.mp4")
     with open(namespace.replay, "rb") as f:
         LOGGER.info("Parsing the replay file...")
@@ -23,6 +29,8 @@ if __name__ == "__main__":
             logs=True,
             enable_chat=True,
             use_tqdm=True,
+            target_player_id=target_player_id,
+
         )
         renderer.start(str(video_path))
         LOGGER.info(f"The video file is at: {str(video_path)}")

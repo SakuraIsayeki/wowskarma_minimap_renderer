@@ -83,7 +83,9 @@ class RendererBase:
                 if self.logs:
                     size = (1360, 850)
 
-            self.minimap_bg = map_water.copy().resize(size)
+            # Solid background of color #111111
+            self.minimap_bg = Image.new("RGBA", size, (17, 17, 17, 255))
+            # self.minimap_bg = map_water.copy().resize(size)
             self.minimap_bg.paste(
                 map_legends,
                 (
@@ -313,6 +315,7 @@ class Renderer(RendererBase):
         enable_chat: bool = True,
         team_tracers: bool = False,
         use_tqdm: bool = False,
+        target_player_id: int | None = None,
     ):
         """Orchestrates the rendering process.
 
@@ -331,6 +334,8 @@ class Renderer(RendererBase):
         self.bg_color: tuple[int, int, int] = (0, 0, 0)
         self.use_tqdm = use_tqdm
         self._builder = ShipBuilder(self.resman)
+
+        self.target_player_id = target_player_id
 
         if self.anon:
             for i, (pid, pi) in enumerate(
@@ -492,16 +497,24 @@ class Renderer(RendererBase):
     def _draw_header(self, image: Image.Image):
         draw = ImageDraw.Draw(image)
 
-        logo = self.resman.load_image("logo.png")
-        image.paste(logo, (840, 25), logo)
+        logo = self.resman.load_image("wowskarma-logo.png", size=(128, 128))
+        image.paste(logo, (820, 15), logo)
 
-        font_large = self.resman.load_font("warhelios_bold.ttf", size=35)
-        draw.text((945, 30), "Minimap Renderer", "white", font_large)
+        # My apologies for ruining your branding, dear WOWS Builder Team.
+        # But, thank you so much for your brilliant work <3
+        #   - Sakura
 
-        font_large = self.resman.load_font("warhelios_bold.ttf", size=16)
+        # font_large = self.resman.load_font("warhelios_bold.ttf", size=35)
+        # draw.text((945, 30), "Minimap Renderer", "white", font_large)
+        font_large = self.resman.load_font("cloud-world.ttf", size=48)
+        draw.text((960, 25), "WOWS Karma", "white", font_large)
+
+        # font_large = self.resman.load_font("warhelios_bold.ttf", size=16)
+        font_large = self.resman.load_font("cloud-world.ttf", size=36)
         draw.text(
-            (945, 75),
-            "https://github.com/WoWs-Builder-Team",
+            (960, 75),
+            # "https://github.com/WoWs-Builder-Team",
+            "wows-karma.com",
             "white",
             font_large,
         )

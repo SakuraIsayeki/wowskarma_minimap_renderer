@@ -63,6 +63,7 @@ class LayerShipBase(LayerBase):
             renderer.minimap_fg.mode, renderer.minimap_fg.size
         )
 
+        self.target_player_id = renderer.target_player_id
     def _get_max_dist(self):
         ship = self._ships[self._owner.ship_params_id]
         if ship["species"] in ["AirCarrier", "Submarine"]:
@@ -117,6 +118,7 @@ class LayerShipBase(LayerBase):
             player = self._replay_data.player_info[vehicle.player_id]
             ship = self._ships[player.ship_params_id]
 
+            is_target = player.account_db_id == self.target_player_id
             owner_view_range = self._owner_view_range
 
             if acs := self._renderer.conman.active_consumables.get(
@@ -164,6 +166,7 @@ class LayerShipBase(LayerBase):
             icon = self._ship_icon(
                 vehicle.is_alive,
                 vehicle.is_visible,
+                is_target,
                 ship["species"],
                 relation,
                 is_in_view_range,
@@ -316,6 +319,7 @@ class LayerShipBase(LayerBase):
         self,
         is_alive: bool,
         is_visible: bool,
+        is_target: bool,
         species: str,
         relation: int,
         is_in_view_range: bool,
@@ -326,6 +330,7 @@ class LayerShipBase(LayerBase):
         Args:
             is_alive (bool): Ship's status.
             is_visible (bool): Ship's visibility.
+            is_target (bool): If the ship is marked as a targeted player's ship.
             species (str): Ship's type.
             relation (int): Ship's relation to player.
             not_in_range (bool): If the ship is in player's render range.
@@ -335,7 +340,7 @@ class LayerShipBase(LayerBase):
             Image.Image: An icon associated with the ship's state.
         """
 
-        relation_str = RELATION_NORMAL_STR[relation]
+        relation_str = "target" if is_target else RELATION_NORMAL_STR[relation]
         filename_parts: list[str] = []
         state = (is_alive, is_visible, is_in_view_range)
 
