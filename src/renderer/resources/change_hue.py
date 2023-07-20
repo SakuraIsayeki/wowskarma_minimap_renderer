@@ -39,6 +39,6 @@ def process_images(directory, hue_shift, exclude_patterns=None, include_patterns
 # Process hue from red to purple
 process_images(
     directory='.',
-    hue_shift=-60,
+    hue_shift=60,
     include_patterns=['*_enemy.png', '*_enemy_outside.png']
 )
