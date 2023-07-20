@@ -313,6 +313,7 @@ class Renderer(RendererBase):
         enable_chat: bool = True,
         team_tracers: bool = False,
         use_tqdm: bool = False,
+        target_player_id: int | None = None,
     ):
         """Orchestrates the rendering process.
 
@@ -331,6 +332,8 @@ class Renderer(RendererBase):
         self.bg_color: tuple[int, int, int] = (0, 0, 0)
         self.use_tqdm = use_tqdm
         self._builder = ShipBuilder(self.resman)
+
+        self.target_player_id = target_player_id
 
         if self.anon:
             for i, (pid, pi) in enumerate(
