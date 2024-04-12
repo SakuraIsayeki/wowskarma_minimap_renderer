@@ -10,15 +10,15 @@ Try it on in [Google Colab](https://colab.research.google.com/drive/1OyomQe5pHaD
 
 ### Installation
 
-1. Install Python 3.10
+1. Install Python 3.11
 2. Create a Python virtual environment and activate it.
 	- Linux
 		```
-		python3.10 -m venv venv && . venv/bin/activate
+		python3.11 -m venv venv && . venv/bin/activate
 		```
 	- Windows
 		```
-		py -3.10 -m venv venv && venv\Scripts\activate.bat
+		py -3.11 -m venv venv && venv\Scripts\activate.bat
 		```
 	- You should now see `(venv)` at the start of the command prompt.
 3. Install the renderer package. To install the renderer package use this command.
